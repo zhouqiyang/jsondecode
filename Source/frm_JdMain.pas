@@ -95,7 +95,7 @@ const
   CONST_OVERLAYINDEX_FILE = 0;
   CONST_OVERLAYINDEX_FOLDER = 1;
 
-  //StateIndex»áÓ°ÏìÊ÷×´²¼¾Ö£¬ÒÑ¾­ÆÁ±Î¸Ã¹¦ÄÜ
+  //StateIndexä¼šå½±å“æ ‘çŠ¶å¸ƒå±€ï¼Œå·²ç»å±è”½è¯¥åŠŸèƒ½
   CONST_STATEINDEX_FILE = 0;
   CONST_STATEINDEX_FOLDER_CLOSED = 1;
   CONST_STATEINDEX_FOLDER_OPENED = 2;
@@ -164,7 +164,7 @@ begin
     item.Data := GetTreeNodeData(string(parent.Data), string(json.AsString));
     Exit;
   end;
-  //Êı¾İ
+  //æ•°æ®
   if json.IsType(stArray) then
   begin
     ja := json.AsArray;
@@ -207,6 +207,7 @@ begin
       begin
         jo := ja.O[i];
         item := TreeView1.Items.AddChild(root, IntToStr(i));
+        item.Data := GetTreeNodeData('', string(root.Data) + '[' + IntToStr(i) + ']');
         if jo.IsType(stObject) then
         begin
           item.ImageIndex := CONST_IMAGEINDEX_OBJECT;
@@ -227,7 +228,6 @@ begin
           item.SelectedIndex := CONST_IMAGEINDEX_VALUE;
           item.Text := jo.AsString;
         end;
-        item.Data := GetTreeNodeData('', string(root.Data) + '[' + IntToStr(i) + ']');
       end;
     end
     else
@@ -308,7 +308,7 @@ begin
   json := SO(FCurrentJsonString);
   if json = nil then
   begin
-    ShowText('Json¸ñÊ½²»ÕıÈ·¡£');
+    ShowText('Jsonæ ¼å¼ä¸æ­£ç¡®ã€‚');
     Exit;
   end;
   cdsJson.Close;
@@ -371,7 +371,7 @@ begin
   except
     on e: Exception do
     begin
-      ShowText('½âÎöJSONÊ§°Ü£¬¿ÉÄÜ²»Ö§³Ö¸Ã¸ñÊ½£º' + e.Message);
+      ShowText('è§£æJSONå¤±è´¥ï¼Œå¯èƒ½ä¸æ”¯æŒè¯¥æ ¼å¼ï¼š' + e.Message);
     end;
   end;
 end;
@@ -391,13 +391,13 @@ end;
 function GetObjectByPath(jo: ISuperObject; path: string): ISuperObject;
 var
   i, iPos: Integer;
-  flag: Boolean; //ÉÏÒ»×Ö½ÚÊÇ·ñºº×ÖÊ××Ö½Ú
+  flag: Boolean; //ä¸Šä¸€å­—èŠ‚æ˜¯å¦æ±‰å­—é¦–å­—èŠ‚
   sNodeName: string;
   iNodeIndex: Integer;
   found: Boolean;
   sPath: string;
 begin
-  //È¥µô¿ªÍ·µÄµã
+  //å»æ‰å¼€å¤´çš„ç‚¹
   if path[1] = '.' then
   begin
     Delete(path, 1, 1);
@@ -417,13 +417,13 @@ begin
     else
       flag := False;
   end;
-  //ÊÇ·ñÓĞµãºÅ£¬ÓĞÔò½ØÈ¡Ç°Ãæ²¿·Ö
+  //æ˜¯å¦æœ‰ç‚¹å·ï¼Œæœ‰åˆ™æˆªå–å‰é¢éƒ¨åˆ†
   if not found then
   begin
     sNodeName := path;
   end;
   sPath := Copy(path, i, Length(path));
-  //ÅĞ¶ÏÊÇ·ñÊı×é
+  //åˆ¤æ–­æ˜¯å¦æ•°ç»„
   iPos := Pos('[', sNodeName);
   iNodeIndex := -1;
   if Pos('[', sNodeName) > 0 then
@@ -442,7 +442,7 @@ begin
   end;
   if sPath = '' then
   begin
-    //Èç¹ûÊÇ³£Á¿£¬Ôò×ª»»Îª¶ÔÏó
+    //å¦‚æœæ˜¯å¸¸é‡ï¼Œåˆ™è½¬æ¢ä¸ºå¯¹è±¡
     if jo.DataType in [stArray, stObject] then
     begin    
       Result := jo;
@@ -467,7 +467,7 @@ begin
   begin
     FPriorSelectNode := node;
     //ShowMessage(StrPas(node.Data));
-    //¿ªÊ¼½âÎöjson
+    //å¼€å§‹è§£æjson
     path := StrPas(node.Data);
     json := SO(FCurrentJsonString);
     jo := GetObjectByPath(json, path);
@@ -476,7 +476,7 @@ begin
     except
       on e: Exception do
       begin
-        ShowText('¼ÓÔØÊı¾İ¼¯³ö´í£º' + e.Message);
+        ShowText('åŠ è½½æ•°æ®é›†å‡ºé”™ï¼š' + e.Message);
       end;
     end;
   end;
@@ -523,7 +523,7 @@ begin
     for i := 0 to ja.Length - 1 do
     begin
       jo := ja.O[i];
-      //ÅĞ¶ÏjoÊÇ³£Á¿»¹ÊÇObject
+      //åˆ¤æ–­joæ˜¯å¸¸é‡è¿˜æ˜¯Object
       if jo.IsType(stObject) then
       begin
         if ObjectFindFirst(jo, iter) then
@@ -533,7 +533,7 @@ begin
             with cdsJson.FieldDefs.AddFieldDef do
             begin
               Name := iter.key;
-              //×Ô¶¯ºÏ¼Æ¹¦ÄÜÒ²ÒÑÆÁ±Î
+              //è‡ªåŠ¨åˆè®¡åŠŸèƒ½ä¹Ÿå·²å±è”½
               if iter.val.DataType in [stDouble, stCurrency, stInt] then
               begin
                 DataType := ftFloat;
@@ -577,7 +577,7 @@ begin
         end;
       end
       else
-      //³£Á¿
+      //å¸¸é‡
       begin     
         if cdsJson.FieldDefs.IndexOf(CONST_NODENAME_ROOT) < 0 then
         begin
@@ -620,7 +620,7 @@ begin
       begin
         jo := ja.O[i];
         cdsJson.Append; 
-        //ÅĞ¶ÏjoÊÇ³£Á¿»¹ÊÇObject
+        //åˆ¤æ–­joæ˜¯å¸¸é‡è¿˜æ˜¯Object
         if jo.IsType(stObject) then
         begin
           if ObjectFindFirst(jo, iter) then
@@ -628,7 +628,7 @@ begin
             if iter.val.DataType <> stNull then
             begin
               field := cdsJson.FieldByName(iter.key);
-              s := iter.val.AsString;  //WideString×ªÎªstring
+              s := iter.val.AsString;  //WideStringè½¬ä¸ºstring
               field.AsString := s;
               if field.Tag < Length(s) then
               begin
@@ -641,7 +641,7 @@ begin
             if iter.val.DataType <> stNull then
             begin
               field := cdsJson.FieldByName(iter.key);
-              s := iter.val.AsString;  //WideString×ªÎªstring
+              s := iter.val.AsString;  //WideStringè½¬ä¸ºstring
               field.AsString := s;
               if field.Tag < Length(s) then
               begin
@@ -655,7 +655,7 @@ begin
           if jo.DataType <> stNull then
           begin
             field := cdsJson.FieldByName(CONST_NODENAME_ROOT);
-            s := jo.AsString;  //WideString×ªÎªstring
+            s := jo.AsString;  //WideStringè½¬ä¸ºstring
             field.AsString := s;
             if field.Tag < Length(s) then
             begin
@@ -689,7 +689,7 @@ begin
       //dbgJson.AutoSizeColumn(i);
     end;
     dbgJsonUpdateFooter(dbgJson);
-    ShowText('¼ÇÂ¼Êı£º' + IntToStr(cdsJson.RecordCount));
+    ShowText('è®°å½•æ•°ï¼š' + IntToStr(cdsJson.RecordCount));
   finally
     ProgressBar1.Position := 0;
     Screen.Cursor := crDefault;
@@ -700,7 +700,7 @@ procedure TfrmJdMain.dbgJsonUpdateFooter(Sender: TObject);
 var
   i: Integer;
 begin
-  //¶¯Ì¬Ìí¼ÓºÏ¼ÆÁĞ
+  //åŠ¨æ€æ·»åŠ åˆè®¡åˆ—
   for i := 1 to dbgJson.FieldCount do
   begin
     if dbgJson.Fields[i - 1] is TNumericField then
@@ -865,7 +865,7 @@ begin
       cdsJson.Next;
     end;
     CloseFile(txt);
-    Application.MessageBox('±£´æ³É¹¦¡£', 'ÌáÊ¾');
+    Application.MessageBox('ä¿å­˜æˆåŠŸã€‚', 'æç¤º');
   end;
 end;
 
@@ -902,8 +902,8 @@ end;
 
 procedure TfrmJdMain.N3Click(Sender: TObject);
 begin
-  MessageBox(Application.Handle, PChar('ÊäÈëJSON×Ö·û´®£¬½âÎöÎªÊ÷×´½á¹¹£¬¿ÉÒÔÏÔÊ¾Îª±í¸ñĞÎÊ½¡£' + #13#10 +
-    'Í¼Àı£ºA-Êı×é£»O-¶ÔÏó£»V-³£Á¿¡£'), '°ïÖúÌáÊ¾', 0);
+  MessageBox(Application.Handle, PChar('è¾“å…¥JSONå­—ç¬¦ä¸²ï¼Œè§£æä¸ºæ ‘çŠ¶ç»“æ„ï¼Œå¯ä»¥æ˜¾ç¤ºä¸ºè¡¨æ ¼å½¢å¼ã€‚' + #13#10 +
+    'å›¾ä¾‹ï¼šA-æ•°ç»„ï¼›O-å¯¹è±¡ï¼›V-å¸¸é‡ã€‚'), 'å¸®åŠ©æç¤º', 0);
 end;
 
 procedure TfrmJdMain.dbgJsonMemoOpen(Grid: TwwDBGrid;
@@ -924,7 +924,7 @@ var
 begin
   frm := TForm.Create(nil);
   try
-    frm.Caption := '¹ØÓÚ±¾Èí¼ş';
+    frm.Caption := 'å…³äºæœ¬è½¯ä»¶';
     frm.ClientWidth := 400;
     frm.ClientHeight := 200;
     frm.Position := poScreenCenter;
@@ -938,7 +938,7 @@ begin
     pnl.Color := clWindow;
     pnl.BevelOuter := bvNone;
 
-    // Ìí¼ÓÎÄ±¾
+    // æ·»åŠ æ–‡æœ¬
     lab := TLabel.Create(frm);
     lab.Parent := pnl;
     //lab.Align := alTop;
@@ -947,26 +947,26 @@ begin
     //lab.WordWrap := True;
     lab.AutoSize := True;
     lab.Caption :=
-    '©³©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©·' + #13#10 +
-    '©§   _          _ _                                           ©§' + #13#10 +
-    '©§  | |        | | |                                          ©§' + #13#10 +
-    '©§  | |__   ___| | | ___                                      ©§' + #13#10 +
-    '©§  | ''_ \ / _ \ | |/ _ \            »¶Ó­Ê¹ÓÃ±¾Èí¼ş           ©§' + #13#10 +
-    '©§  | | | |  __/ | | (_) |                                    ©§' + #13#10 +
-    '©§  |_| |_|\___|_|_|\___/                                     ©§' + #13#10 +
-    '©§                                                            ©§' + #13#10 +    
-    '©§  BUG·´À¡£ºzhouqiyang@yahoo.com                             ©§' + #13#10 +
-    '©§  Ô´ÂëÏÂÔØ£ºhttps://github.com/zhouqiyang/jsondecode        ©§' + #13#10 +
-    '©§                                                            ©§' + #13#10 +
-    '©»©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¿';
-    lab.Font.Name := 'ËÎÌå';  // ÉèÖÃ×ÖÌå
-    lab.Font.Size := 9;        // ÉèÖÃ×ÖºÅ 
+    'â”â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”“' + #13#10 +
+    'â”ƒ   _          _ _                                           â”ƒ' + #13#10 +
+    'â”ƒ  | |        | | |                                          â”ƒ' + #13#10 +
+    'â”ƒ  | |__   ___| | | ___                                      â”ƒ' + #13#10 +
+    'â”ƒ  | ''_ \ / _ \ | |/ _ \            æ¬¢è¿ä½¿ç”¨æœ¬è½¯ä»¶           â”ƒ' + #13#10 +
+    'â”ƒ  | | | |  __/ | | (_) |                                    â”ƒ' + #13#10 +
+    'â”ƒ  |_| |_|\___|_|_|\___/                                     â”ƒ' + #13#10 +
+    'â”ƒ                                                            â”ƒ' + #13#10 +    
+    'â”ƒ  BUGåé¦ˆï¼šzhouqiyang@yahoo.com                             â”ƒ' + #13#10 +
+    'â”ƒ  æºç ä¸‹è½½ï¼šhttps://github.com/zhouqiyang/jsondecode        â”ƒ' + #13#10 +
+    'â”ƒ                                                            â”ƒ' + #13#10 +
+    'â”—â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”›';
+    lab.Font.Name := 'å®‹ä½“';  // è®¾ç½®å­—ä½“
+    lab.Font.Size := 9;        // è®¾ç½®å­—å· 
     lab.Left := (frm.ClientWidth - lab.Width) div 2;
 
-    // Ìí¼Ó°´Å¥
+    // æ·»åŠ æŒ‰é’®
     btn := TButton.Create(frm);
     btn.Parent := frm;
-    btn.Caption := 'È·¶¨';
+    btn.Caption := 'ç¡®å®š';
     btn.ModalResult := mrOK;
     btn.Height := 22; 
     btn.Width := 74;
