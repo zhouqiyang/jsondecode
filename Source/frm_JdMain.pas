@@ -499,7 +499,13 @@ begin
     ShowText();
     ProgressBar1.Position := 0;
     if cdsJson.Active then
-      cdsJson.Close;
+    begin
+      //当数据集里存在字段RowState时，会触发异常
+      try
+        cdsJson.Close;
+      except
+      end;
+    end;
 
     for i := 0 to fieldList.Count - 1 do
     begin
