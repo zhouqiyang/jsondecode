@@ -813,11 +813,49 @@ object frmJdMain: TfrmJdMain
     Top = 220
   end
   object pmJson: TPopupMenu
+    OnPopup = pmJsonPopup
     Left = 452
     Top = 340
     object miCopy: TMenuItem
-      Caption = #22797#21046
+      Caption = #22797#21046#21333#20803#26684
       OnClick = miCopyClick
+    end
+    object N5: TMenuItem
+      Caption = '-'
+    end
+    object N6: TMenuItem
+      Caption = #23450#20301#23383#27573
+      OnClick = N6Click
+    end
+  end
+  object sdFieldName: TwwSearchDialog
+    Selected.Strings = (
+      'FIELD_NAME'#9'40'#9#23383#27573#21517#9'T')
+    GridTitleAlignment = taCenter
+    GridColor = clWhite
+    Options = [opShowOKCancel]
+    GridOptions = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgPerfectRowFit]
+    SearchTable = cdsFieldName
+    Caption = 'Search'
+    MaxWidth = 0
+    MaxHeight = 209
+    CharCase = ecNormal
+    UserButton1Caption = #25490#24207
+    OnUserButton1Click = sdFieldNameUserButton1Click
+    Left = 620
+    Top = 220
+  end
+  object cdsFieldName: TwwClientDataSet
+    Aggregates = <>
+    Params = <>
+    ValidateWithMask = True
+    Left = 620
+    Top = 172
+    object cdsFieldNameFIELD_NAME: TStringField
+      DisplayLabel = #23383#27573#21517
+      DisplayWidth = 32
+      FieldName = 'FIELD_NAME'
+      Size = 80
     end
   end
 end
