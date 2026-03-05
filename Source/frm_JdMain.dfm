@@ -1,8 +1,8 @@
 object frmJdMain: TfrmJdMain
   Left = 254
   Top = 199
-  Width = 868
-  Height = 611
+  Width = 1010
+  Height = 718
   Caption = 'Json'#35299#37322#22120
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
@@ -20,7 +20,7 @@ object frmJdMain: TfrmJdMain
   object Splitter1: TSplitter
     Left = 0
     Top = 161
-    Width = 860
+    Width = 1002
     Height = 3
     Cursor = crVSplit
     Align = alTop
@@ -28,7 +28,7 @@ object frmJdMain: TfrmJdMain
   object pnlTop: TPanel
     Left = 0
     Top = 0
-    Width = 860
+    Width = 1002
     Height = 161
     Align = alTop
     BevelOuter = bvNone
@@ -36,7 +36,7 @@ object frmJdMain: TfrmJdMain
     object mmSource: TMemo
       Left = 0
       Top = 0
-      Width = 860
+      Width = 1002
       Height = 161
       Align = alClient
       Ctl3D = True
@@ -50,21 +50,21 @@ object frmJdMain: TfrmJdMain
   object pnlBottom: TPanel
     Left = 0
     Top = 164
-    Width = 860
-    Height = 374
+    Width = 1002
+    Height = 481
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 1
     object Splitter2: TSplitter
       Left = 305
       Top = 0
-      Height = 374
+      Height = 481
     end
     object pnlBottomLeft: TPanel
       Left = 0
       Top = 0
       Width = 305
-      Height = 374
+      Height = 481
       Align = alLeft
       BevelOuter = bvNone
       TabOrder = 0
@@ -72,7 +72,7 @@ object frmJdMain: TfrmJdMain
         Left = 0
         Top = 0
         Width = 305
-        Height = 374
+        Height = 481
         Align = alClient
         Ctl3D = True
         Images = ImageList1
@@ -87,16 +87,16 @@ object frmJdMain: TfrmJdMain
     object pnlBottomRight: TPanel
       Left = 308
       Top = 0
-      Width = 552
-      Height = 374
+      Width = 694
+      Height = 481
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 1
       object dbgJson: TwwDBGrid
         Left = 0
         Top = 0
-        Width = 552
-        Height = 340
+        Width = 694
+        Height = 448
         IniAttributes.Delimiter = ';;'
         TitleColor = clBtnFace
         OnMemoOpen = dbgJsonMemoOpen
@@ -123,25 +123,26 @@ object frmJdMain: TfrmJdMain
         OnDrawDataCell = dbgJsonDrawDataCell
         OnKeyUp = dbgJsonKeyUp
         OnUpdateFooter = dbgJsonUpdateFooter
+        PaintOptions.ActiveRecordColor = clCream
       end
       object pnlBottomRightCtl: TPanel
         Left = 0
-        Top = 346
-        Width = 552
-        Height = 28
+        Top = 448
+        Width = 694
+        Height = 33
         Align = alBottom
         BevelOuter = bvNone
         TabOrder = 1
         object Label1: TLabel
           Left = 16
-          Top = 9
+          Top = 13
           Width = 60
           Height = 12
           Caption = #26597#35810#26465#20214#65306
         end
         object edtKeyword: TEdit
           Left = 80
-          Top = 5
+          Top = 9
           Width = 169
           Height = 20
           TabOrder = 0
@@ -149,7 +150,7 @@ object frmJdMain: TfrmJdMain
         end
         object rbLocate: TRadioButton
           Left = 256
-          Top = 7
+          Top = 11
           Width = 49
           Height = 17
           Caption = #23450#20301
@@ -160,7 +161,7 @@ object frmJdMain: TfrmJdMain
         end
         object rbFilter: TRadioButton
           Left = 304
-          Top = 7
+          Top = 11
           Width = 57
           Height = 17
           Caption = #36807#28388
@@ -169,7 +170,7 @@ object frmJdMain: TfrmJdMain
         end
         object btnExport: TButton
           Left = 440
-          Top = 5
+          Top = 9
           Width = 65
           Height = 21
           Caption = #23548#20986#32467#26524
@@ -178,30 +179,30 @@ object frmJdMain: TfrmJdMain
         end
         object btnFindNext: TButton
           Left = 360
-          Top = 5
+          Top = 9
           Width = 65
           Height = 21
           Caption = #19979#19968#20010
           TabOrder = 4
           OnClick = btnFindNextClick
         end
-      end
-      object ProgressBar1: TProgressBar
-        Left = 0
-        Top = 340
-        Width = 552
-        Height = 6
-        Align = alBottom
-        Smooth = True
-        Step = 1
-        TabOrder = 2
+        object ProgressBar1: TProgressBar
+          Left = 0
+          Top = 0
+          Width = 694
+          Height = 5
+          Align = alTop
+          Smooth = True
+          Step = 1
+          TabOrder = 5
+        end
       end
     end
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 538
-    Width = 860
+    Top = 645
+    Width = 1002
     Height = 19
     Panels = <
       item
@@ -216,6 +217,13 @@ object frmJdMain: TfrmJdMain
       object miReadFile: TMenuItem
         Caption = #35835#21462#25991#20214'...'
         OnClick = miReadFileClick
+      end
+    end
+    object N7: TMenuItem
+      Caption = #32534#36753
+      object N8: TMenuItem
+        Caption = #26684#24335#21270
+        OnClick = N8Click
       end
     end
     object N2: TMenuItem
